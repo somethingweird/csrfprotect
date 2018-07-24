@@ -68,7 +68,7 @@ class CSRF_Protect
 	 */
 	public function verifyRequest()
 	{
-		if (!$this->isTokenValid($_POST[$this->namespace]))
+		if (!$this->isTokenValid($_REQUEST[$this->namespace]))
 		{
 			die("CSRF validation failed.");
 		}
@@ -84,7 +84,8 @@ class CSRF_Protect
 		
 		if ($storedToken === '')
 		{
-			$token = md5(uniqid(rand(), TRUE));
+			// token will be 64 character hex string
+			$token = bin2hex(random_bytes(32)); 
 			$this->writeTokenToStorage($token);
 		}
 	}
