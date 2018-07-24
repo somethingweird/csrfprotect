@@ -68,10 +68,16 @@ class CSRF_Protect
 	 */
 	public function verifyRequest()
 	{
+		if (isset($_SESSION[$this->namespace])) 
+		{
+			return false;
+		};
+		
 		if (!$this->isTokenValid($_REQUEST[$this->namespace]))
 		{
-			die("CSRF validation failed.");
+			return false;
 		}
+		return true;
 	}
 	
 	/**
